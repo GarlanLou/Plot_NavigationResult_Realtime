@@ -37,5 +37,12 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     # 构造NMEA文件的相对路径
     nmea_file = os.path.join(script_dir, "rtk_rrr_solution.txt")
+
+    # 解析NMEA文件
     latitudes, longitudes = parse_nmea_file(nmea_file)
-    plot_navigation(latitudes, longitudes)
+
+    # 检查文件是否为空
+    if not latitudes or not longitudes:
+        print("The NMEA file is empty. No plot will be generated.")
+    else:
+        plot_navigation(latitudes, longitudes)
