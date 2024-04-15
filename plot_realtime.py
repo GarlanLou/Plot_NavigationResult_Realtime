@@ -36,8 +36,16 @@ def update_plot(frame):
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    nmea_file = os.path.join(script_dir, "ppp_tc_solution.txt")
+    nmea_file = os.path.join(script_dir, "rtk_tc_solution.txt")
 
     fig, ax = plt.subplots(figsize=(10, 6))
-    ani = FuncAnimation(fig, update_plot, interval=100, save_count=10)
-    plt.show()
+
+    while True:
+        latitudes, longitudes = parse_nmea_file(nmea_file)
+        if not latitudes or not longitudes:
+            print("The NMEA file is empty. Waiting for data...")
+            time.sleep(1)  # Wait for 1 second
+        else:
+            ani = FuncAnimation(fig, update_plot, interval=100, save_count=10)
+            plt.show()
+            break
